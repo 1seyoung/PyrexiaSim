@@ -8,7 +8,7 @@ from human_model import HumanModel
 from siggen import SignalGenModel
 
 ####  model create
-
+'''
 def num_to_Human(pair):
 
     print("Dddddd")
@@ -18,7 +18,7 @@ def num_to_Human(pair):
     se.insert_input_port("info")
     se.register_entity(hm)
     se.coupling_relation(gen,"info", hm, "info")
-
+'''
 ###
 
 ss = SystemSimulator()
