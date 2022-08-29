@@ -7,6 +7,8 @@ from human import Human
 from human_model import HumanModel
 from siggen import SignalGenModel
 
+### [engine:senicam(siggen)]-----[engine:seni_human  (Human_num(create each) - check, work)]
+
 ####  model create
 '''
 def num_to_Human(pair):
