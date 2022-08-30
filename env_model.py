@@ -6,12 +6,14 @@ from pyevsim.system_simulator import SystemSimulator
 from pyevsim.behavior_model_executor import BehaviorModelExecutor
 from pyevsim.definition import *
 
+#from pyevsim.system_executor import SysExecutor
+
 from env import Env
 
 import datetime
 
 class WeatherModel(BehaviorModelExecutor):
-    def __init__(self, instance_time, destruct_time, name, engine_name, _ew):
+    def __init__(self, instance_time, destruct_time, name, engine_name, _sysengine:SystemSimulator):
         BehaviorModelExecutor.__init__(self, instance_time, destruct_time, name, engine_name)
         
         self.init_state("IDLE")
@@ -21,7 +23,7 @@ class WeatherModel(BehaviorModelExecutor):
         self.insert_input_port("event")
         self.insert_output_port("winfo")
 
-        self.env_w = _ew
+        self.sys_engine = _sysengine
 
     def ext_trans(self,port, msg):
         if port == "event":
@@ -37,10 +39,13 @@ class WeatherModel(BehaviorModelExecutor):
             soup = BeautifulSoup(res.text, "lxml")     
 
             sum = soup.find("dl", attrs={"class":"summary_list"})
-            self.env_w.sensible_temp = sum.find_all("dd")[0].get_text() # 체감온도
-            self.env_w.humidity = sum.find_all("dd")[1].get_text() # 습도
-            print(self.env_w.sensible_temp)
-            print(self.env_w.humidity)
+            sensible_temp = sum.find_all("dd")[0].get_text() # 체감온도
+            humidity = sum.find_all("dd")[1].get_text() # 습도
+            print(sensible_temp)
+            print(humidity)
+            print("-------------------------------------------")
+            
+            self.sys_engine.get_engine("seni_human").insert_external_event("winfo", Env(sensible_temp, humidity))
         return None
 
 
@@ -49,15 +54,3 @@ class WeatherModel(BehaviorModelExecutor):
             self._cur_state = "CRAWLING"
         else:
             self._cur_state = "IDLE"
-
-ss = SystemSimulator()
-ss.register_engine("env_weather", "REAL_TIME", 0.1)
-
-ss.get_engine("env_weather").insert_input_port("start")
-
-_ew = Env()
-ewm = WeatherModel(0,Infinite,"Env_Weather","env_weather",_ew)
-ss.get_engine("env_weather").register_entity(ewm)
-ss.get_engine("env_weather").coupling_relation(None, "start", ewm, "event")
-ss.get_engine("env_weather").insert_external_event("start", None)
-ss.get_engine("env_weather").simulate()

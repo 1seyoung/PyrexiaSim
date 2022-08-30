@@ -4,7 +4,7 @@ from pyevsim.system_message import SysMessage
 from pyevsim.definition import *
 
 import datetime
-from human import Human
+from health_object import HealthObject
 
 class HumanCheck(BehaviorModelExecutor):
     def __init__(self, instance_time, destruct_time, name, engine_name, _id, _hu):
@@ -16,7 +16,7 @@ class HumanCheck(BehaviorModelExecutor):
         
         #self.insert_input_port("info")
         #self.insert_output_port("check")
-        self.human = _hu
+        self.health_obj = _hu
         self.hid = _id
 
         print("g")
@@ -27,14 +27,14 @@ class HumanCheck(BehaviorModelExecutor):
     def output(self):
         print("g")
         print(f"!check health: {datetime.datetime.now()}")
-        if self.human.health_score <30:
-            print(f"Humnan[{self.hid}][{self.human.health_score}] Health Danger!!!: {datetime.datetime.now()}")
+        if self.health_obj.human.health_score <30:
+            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Danger!!!: {datetime.datetime.now()}")
             return None
-        elif self.human.health_score <50:
-            print(f"Humnan[{self.hid}][{self.human.health_score}] Health Attention: {datetime.datetime.now()}")  
+        elif self.health_obj.human.health_score <50:
+            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Attention: {datetime.datetime.now()}")  
             return None          
         else:
-            print(f"Humnan[{self.hid}][{self.human.health_score}] Health is Okay: {datetime.datetime.now()}")
+            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health is Okay: {datetime.datetime.now()}")
             return None
 
     def int_trans(self):

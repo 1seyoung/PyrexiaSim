@@ -7,9 +7,11 @@ from pyevsim.definition import *
 import datetime
 import random
 
-from human import Human
+from health_object import HealthObject
+from env import Env
 from human_model import HumanModel
 from human_check import HumanCheck
+from human_weather import HumanWeather
 
 class SignalGenModel(BehaviorModelExecutor):
     def __init__(self, instance_time, destruct_time, name, engine_name, _sysengine):
@@ -18,7 +20,7 @@ class SignalGenModel(BehaviorModelExecutor):
         self.init_state("IDLE")
         self.insert_state("IDLE", Infinite)
         self.insert_state("Generate", 1)
-  
+
         self.insert_input_port("event")
         self.insert_output_port("info")
 
@@ -54,18 +56,23 @@ class SignalGenModel(BehaviorModelExecutor):
             
             if num not in self.detect_map:
                 print("Dddddd")
-                _hu = Human()
-                hm = HumanModel(0, Infinite, f"HumanModel[{num}]","seni_human", num, _hu)
-                hc = HumanCheck(0, Infinite, f"HumanCheck[{num}]","seni_human", num, _hu)
+                _ho = HealthObject()
+                hm = HumanModel(0, Infinite, f"HumanModel[{num}]","seni_human", num, _ho)
+                hc = HumanCheck(0, Infinite, f"HumanCheck[{num}]","seni_human", num, _ho)
+                hw = HumanWeather(0, Infinite, f"HumanWeather[{num}]","seni_human", num, _ho)
                 
                 self.sys_engine.get_engine("seni_human").insert_input_port(f"info[{num}]")
 
                 self.sys_engine.get_engine("seni_human").register_entity(hm)
                 self.sys_engine.get_engine("seni_human").coupling_relation(None,f"info[{num}]", hm, "info")
+                self.sys_engine.get_engine("seni_human").coupling_relation(None,f"winfo", hw, "winfo")
 
                 self.sys_engine.get_engine("seni_human").register_entity(hc)
 
                 self.detect_map[num] = hm
+
+                #ew = WeatherModel((0, Infinite, f"HumanCheck[{num}]","seni_human", num, _ev))
+                #self.sys_engine.get_engine("seni_human").coupling_relation(self.env_model, f"winfo", hm, "info")
 
             self.sys_engine.get_engine("seni_human").insert_external_event(f"info[{num}]", info)
 

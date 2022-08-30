@@ -4,7 +4,6 @@ from pyevsim.system_message import SysMessage
 from pyevsim.definition import *
 
 import datetime
-from human import Human
 
 class HumanModel(BehaviorModelExecutor):
     def __init__(self, instance_time, destruct_time, name, engine_name, _id, _hu):
@@ -15,8 +14,10 @@ class HumanModel(BehaviorModelExecutor):
         self.insert_state("WORK_CHECK", 0)
         
         self.insert_input_port("info")
+
+        self.increment = 10
         #self.insert_output_port("check")
-        self.human = _hu
+        self.health_obj = _hu
         self.hid = _id
 
         self.recv_info = None
@@ -39,11 +40,11 @@ class HumanModel(BehaviorModelExecutor):
         
         if self.recv_info == "blue":
             print(f"?blue: {datetime.datetime.now()}")
-            self.human.health_score += 10
+            self.health_obj.human.health_score += self.health_obj.assess_health("blue")
             print(f"Human[{self.hid}]!blue - > rest  : health +10")
         elif self.recv_info == "red":
             print(f"?red: {datetime.datetime.now()}")
-            self.human.health_score -= 10
+            self.health_obj.human.health_score -= self.health_obj.assess_health("red")
             print(f"Human[{self.hid}]red - > rest  : health -10")
         '''
         print(f"!check health: {datetime.datetime.now()}")
