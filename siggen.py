@@ -40,10 +40,10 @@ class SignalGenModel(BehaviorModelExecutor):
     def output(self):
         #print("out")
         if self._cur_state == "Generate":
-            color = random.choice(self.color_)
-            num = random.choice(self.num_)
-            #color = "red"
-            #num = "one"
+            #color = random.choice(self.color_)
+            #num = random.choice(self.num_)
+            color = "red"
+            num = "one"
 
             print("------------------------------------")
             print(f"Detect Person Info: {num}" )
