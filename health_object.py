@@ -13,8 +13,10 @@ class HealthObject(object):
     def assess_health(self, state):
         #self.env.
         if state == "blue":
-            return self.human.health_score + 10
+            self.human.health_score += 10
+            return self.human.health_score
         else:
-            return self.human.health_score - 10
+            self.human.health_score -= 10
+            return self.human.health_score
 
     
