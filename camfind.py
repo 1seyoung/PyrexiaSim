@@ -6,7 +6,6 @@ import math
 import pytesseract
 from collections import Counter
 
-
 class camera_data():
     def __init__(self) -> None:
         pass
@@ -114,7 +113,7 @@ class camera_data():
             r_data_collect = []
             b_data_collect = []
 
-            cv2.imshow('bgr', img_color)
+            # cv2.imshow('bgr', img_color)
             cv2.imshow('red', red_mask)
             cv2.imshow('blue', blue_mask)
             # cap.release()
@@ -132,9 +131,9 @@ class camera_data():
                 return ['blue'], [b_data_collect],red_rect,blue_rect
             
 
-            if not contours_red and not contours_blue:
-                print('nothing')
-                cv2.imshow('not', img_color)
+            # if not contours_red and not contours_blue:
+            #     # print('nothing')
+            #     # cv2.imshow('not', img_color)
                 
             if contours_red and contours_blue:
             
@@ -147,7 +146,6 @@ class camera_data():
 
                 return ['red','blue'], [r_data_collect,b_data_collect],red_rect,blue_rect
 
-
     def trans_data():
         r_data_collect = []
         b_data_collect = []
@@ -158,13 +156,11 @@ class camera_data():
 
             if len(color) == 1 :
                 if color[0] == 'red':
-                    if len(r_data_collect) < 2:
+                    if len(r_data_collect) < 5:
                         # color, data_list = camera_detection()
                         for ln in data_list[0]:
                             r_data_collect.append(ln)
 
-                        print(f'{i}r_데이터수집 : ',r_data_collect)
-                        print(f'{i}r_데이터길이 : ',len(r_data_collect))
                     else:
                         data_items = Counter(r_data_collect)
                         r_best_number = data_items.most_common(n = red_rect)
@@ -173,17 +169,14 @@ class camera_data():
            
                         for ln in r_best_number:
                             numbers.append(ln[0])
-
-                        print('best number r',numbers)
-                        print('r rect', red_rect)
+           
                         return color[0],[numbers]
                 else:
-                    if len(b_data_collect) < 2:
+                    if len(b_data_collect) < 5:
                         # color, data_list = camera_detection()
                         for ln in data_list[0]:
                             b_data_collect.append(ln)
 
-                        print(f'{i}b_데이터수집 : ',b_data_collect)
                     else:
                         b_data_items = Counter(b_data_collect)
                         b_best_number = b_data_items.most_common(n = blue_rect)
@@ -193,35 +186,30 @@ class camera_data():
                         for ln in b_best_number:
                             numbers.append(ln[0])
 
-                        print('best number b',numbers)
-                        print('b rect', blue_rect)
                         return color[0],[numbers]
             else:
-                if len(r_data_collect) < 2 and len(b_data_collect) < 2:
-                    print(f'1데이터수집_양? : ')
+                if len(r_data_collect) < 5 and len(b_data_collect) < 5:
+         
                     if len(r_data_collect) > len(b_data_collect) :
                  
                         for ln in data_list[1]:
                             b_data_collect.append(ln)
 
-                        print(f'{i}b1_데이터수집_양 : ',b_data_collect)
+                  
                     if len(r_data_collect) < len(b_data_collect) :
 
                         for ln in data_list[0]:
                             r_data_collect.append(ln)
-                        print(f'{i}r1_데이터수집_양 : ',r_data_collect)
-
+                  
                     if len(r_data_collect) == len(b_data_collect) :
                         for ln in data_list[0]:
                             r_data_collect.append(ln)
-                        print(f'{i}r2_데이터수집_양 : ',r_data_collect)
+                     
                     
-                elif len(r_data_collect) >=2 and len(b_data_collect) < 2:
-                    if len(r_data_collect) >=2:
+                elif len(r_data_collect) >=5 and len(b_data_collect) < 5:
+                    if len(r_data_collect) >=5:
                         for ln in data_list[1]:
                             b_data_collect.append(ln)
-
-                        print(f'{i}b2_데이터수집_양 : ',b_data_collect)
 
                 else:
                     r_data_items = Counter(r_data_collect)
@@ -240,10 +228,8 @@ class camera_data():
                     for ln in b_best_number:
                         b_numbers.append(ln[0])
 
-                    print('best number r,b',r_numbers,b_numbers)
-                    print('r,b rect', red_rect,blue_rect)
                     return [color[0],color[1]],[r_numbers,b_numbers]
-        
+
     def main():
         while(1):
             color, number = camera_data.trans_data()
@@ -255,4 +241,3 @@ class camera_data():
                 return color,number
 
 
-# camera_data.main()

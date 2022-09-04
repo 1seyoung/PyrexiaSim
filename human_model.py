@@ -40,11 +40,11 @@ class HumanModel(BehaviorModelExecutor):
         
         if self.recv_info == "blue":
             print(f"?blue: {datetime.datetime.now()}")
-            self.health_obj.human.health_score += self.health_obj.assess_health("blue")
+            self.health_obj.human.health_score = self.health_obj.assess_health("blue")
             print(f"Human[{self.hid}]!blue - > rest  : health +10")
         elif self.recv_info == "red":
             print(f"?red: {datetime.datetime.now()}")
-            self.health_obj.human.health_score -= self.health_obj.assess_health("red")
+            self.health_obj.human.health_score = self.health_obj.assess_health("red")
             print(f"Human[{self.hid}]red - > rest  : health -10")
         '''
         print(f"!check health: {datetime.datetime.now()}")

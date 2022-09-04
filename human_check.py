@@ -5,6 +5,7 @@ from pyevsim.definition import *
 
 import datetime
 from health_object import HealthObject
+# from siggen import SignalGenModel
 
 class HumanCheck(BehaviorModelExecutor):
     def __init__(self, instance_time, destruct_time, name, engine_name, _id, _hu):
@@ -16,16 +17,17 @@ class HumanCheck(BehaviorModelExecutor):
         
         #self.insert_input_port("info")
         #self.insert_output_port("check")
+        
         self.health_obj = _hu
         self.hid = _id
-
-        print("g")
+        # self.sigmodel = SignalGenModel(0, Infinite, f"HumanModel[{self.hid}]","seni_human", self.hid, self.health_obj.human.health_score)
+        print("g1")
 
     def ext_trans(self,port, msg):
         pass
 
     def output(self):
-        print("g")
+        print("g2")
         print(f"!check health: {datetime.datetime.now()}")
         if self.health_obj.human.health_score <30:
             print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Danger!!!: {datetime.datetime.now()}")
