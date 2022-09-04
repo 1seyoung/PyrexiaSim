@@ -19,13 +19,12 @@ class HumanCheck(BehaviorModelExecutor):
         self.health_obj = _hu
         self.hid = _id
 
-        print("g")
 
     def ext_trans(self,port, msg):
         pass
 
     def output(self):
-        print("g")
+
         print(f"!check health: {datetime.datetime.now()}")
         if self.health_obj.human.health_score <30:
             print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Danger!!!: {datetime.datetime.now()}")
