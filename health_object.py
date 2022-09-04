@@ -19,7 +19,8 @@ class HealthObject(object):
                 
             decrease = 10 #증가
 
-            ctemp= float(self.env.sensible_temp[:-1])
+            #ctemp= float(self.env.sensible_temp[:-1])
+            ctemp = 36.0
             if ctemp >= 37.0:
                 #danger
                 return decrease * 1.8
@@ -38,8 +39,9 @@ class HealthObject(object):
         else:
 
             increase = 10 #감소
+            ctemp = 36.0
 
-            ctemp= float(self.env.sensible_temp[:-1])
+            #ctemp= float(self.env.sensible_temp[:-1])
             if ctemp >= 37.0:
                 return increase * 0.4
             elif ctemp >=34.0:
@@ -54,7 +56,7 @@ class HealthObject(object):
 
         if state == "blue":
             ins = self.control_inc()
-            print(f"{ins}점```수 변화가 있니아용ㅇ")
+
             self.human.health_score += ins
             return self.human.health_score
         else:
