@@ -6,6 +6,7 @@ from pyevsim.definition import *
 
 import datetime
 import random
+import pygsheets
 
 from health_object import HealthObject
 from env import Env
@@ -19,7 +20,7 @@ class SignalGenModel(BehaviorModelExecutor):
         
         self.init_state("IDLE")
         self.insert_state("IDLE", Infinite)
-        self.insert_state("Generate", 1)
+        self.insert_state("Generate", 5)
 
         self.insert_input_port("event")
         self.insert_output_port("info")
@@ -28,6 +29,7 @@ class SignalGenModel(BehaviorModelExecutor):
         self.num_ = ["one", "two", "three"]
 
         self.sys_engine = _sysengine
+
 
         self.detect_map = {}
 
@@ -45,17 +47,22 @@ class SignalGenModel(BehaviorModelExecutor):
             #color = "red"
             #num = "one"
 
-            print("\n------------------------------------")
+            print()
+            print(f"[SigGen]!info: {datetime.datetime.now()}")
+
+
             print(f"Detect Person Info: {num}" )
             print(f"Detect Color Info : {color}")
-            print("------------------------------------")
+
+
+
         
             info = [num, color]
 
-            print(f"[SigGen]!info: {datetime.datetime.now()}")
+            
             
             if num not in self.detect_map:
-                print("Dddddd")
+                
                 _ho = HealthObject()
                 hm = HumanModel(0, Infinite, f"HumanModel[{num}]","seni_human", num, _ho)
                 hc = HumanCheck(0, Infinite, f"HumanCheck[{num}]","seni_human", num, _ho)
@@ -70,6 +77,7 @@ class SignalGenModel(BehaviorModelExecutor):
                 self.sys_engine.get_engine("seni_human").register_entity(hc)
 
                 self.detect_map[num] = hm
+
 
                 #ew = WeatherModel((0, Infinite, f"HumanCheck[{num}]","seni_human", num, _ev))
                 #self.sys_engine.get_engine("seni_human").coupling_relation(self.env_model, f"winfo", hm, "info")

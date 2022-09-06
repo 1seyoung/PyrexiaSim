@@ -27,13 +27,13 @@ class HumanCheck(BehaviorModelExecutor):
 
         print(f"!check health: {datetime.datetime.now()}")
         if self.health_obj.human.health_score <30:
-            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Danger!!!: {datetime.datetime.now()}")
+            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health Danger: {datetime.datetime.now()}")
             return None
         elif self.health_obj.human.health_score <50:
-            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health Attention: {datetime.datetime.now()}")  
+            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health Attention: {datetime.datetime.now()}")  
             return None          
         else:
-            print(f"Humnan[{self.hid}][{self.health_obj.human.health_score}] Health is Okay: {datetime.datetime.now()}")
+            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health is Okay: {datetime.datetime.now()}")
             return None
 
     def int_trans(self):
