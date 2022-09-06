@@ -7,6 +7,6 @@ class Google_update(object):
         self.wks = self.sh.worksheet('title','log')
 
 
-        ##        df = self.wks.get_as_df()            
-        # text_ =[f"Detect Person Info: {num}",f"{datetime.datetime.now()}"]
-            #self.wks.update_row((len(df)+2),text_,col_offset=0)
+    def update_log(self, text_):
+        df = self.wks.get_as_df()            
+        self.wks.update_row((len(df)+2),text_,col_offset=0)
