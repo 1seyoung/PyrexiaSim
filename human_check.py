@@ -8,6 +8,7 @@ from health_object import HealthObject
 
 from pyevsim.system_simulator import SystemSimulator
 
+import google_log
 
 class HumanCheck(BehaviorModelExecutor):
 
@@ -25,6 +26,8 @@ class HumanCheck(BehaviorModelExecutor):
         self.health_obj = _hu
         self.hid = _id
 
+        self.goup = google_log.Google_update()
+
         self.se = SystemSimulator().get_engine(engine_name)
 
     def ext_trans(self, port, msg):
@@ -37,16 +40,22 @@ class HumanCheck(BehaviorModelExecutor):
             print(
                 f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Danger"
             )
+            _list =[f"{self.get_engine_name()}",f"{self.se.get_global_time()}",f"{self.hid}",f"{self.health_obj.human.health_score}"]
+            self.goup.update_log(_list)
             return None
         elif self.health_obj.human.health_score < 50:
             print(
                 f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Attention "
             )
+            _list =[f"{self.get_engine_name()}",f"{self.se.get_global_time()}",f"{self.hid}",f"{self.health_obj.human.health_score}"]
+            self.goup.update_log(_list)            
             return None
         else:
             print(
                 f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Okay"
             )
+            _list =[f"{self.get_engine_name()}",f"{self.se.get_global_time()}",f"{self.hid}",f"{self.health_obj.human.health_score}"]
+            self.goup.update_log(_list)
             return None
 
     def int_trans(self):

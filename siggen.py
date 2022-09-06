@@ -7,6 +7,9 @@ import random
 
 from health_object import HealthObject
 from env import Env
+
+import google_log
+
 from human_model import HumanModel
 from human_check import HumanCheck
 from human_weather import HumanWeather
@@ -26,8 +29,10 @@ class SignalGenModel(BehaviorModelExecutor):
         self.insert_input_port("event")
         self.insert_output_port("info")
 
-        self.color_ = ["red", "blue"]
-        self.num_ = ["one", "two", "three"]
+        #self.color_ = ["red", "blue"]
+        #self.num_ = ["one", "two", "three"]
+
+        self.goup = google_log.Google_update()
 
         self.event_list = [
             ('two', ' red'),
@@ -81,6 +86,8 @@ class SignalGenModel(BehaviorModelExecutor):
             print(
                 f"{self.get_engine_name()}, {self.sys_engine.get_engine(self.get_engine_name()).get_global_time()},{num},{color} "
             )
+            _list =[f"{self.get_engine_name()}", f"{self.sys_engine.get_engine(self.get_engine_name()).get_global_time()}",f"{num}",f"{color}"]
+            self.goup.update_log(_list)
 
             info = [num, color]
 
