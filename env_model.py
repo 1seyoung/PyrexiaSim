@@ -31,7 +31,7 @@ class WeatherModel(BehaviorModelExecutor):
     
     def output(self):
         if self._cur_state == "CRAWLING":
-
+            '''
             #print("Naver Weather Update")      
             url = "https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=%EC%84%9C%EC%9A%B8+%EB%82%A0%EC%94%A8"
             res = requests.get(url)
@@ -44,8 +44,9 @@ class WeatherModel(BehaviorModelExecutor):
             #print(f"current sensible temp : {sensible_temp}")
             #print(f"current humidity : {humidity}")
             #print()
+            '''
             
-            self.sys_engine.get_engine("seni_human").insert_external_event("winfo", Env(sensible_temp, humidity))
+            #self.sys_engine.get_engine("seni_human").insert_external_event("winfo", Env(sensible_temp, humidity))
         return None
 
 

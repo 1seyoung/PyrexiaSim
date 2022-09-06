@@ -11,17 +11,7 @@ from env_model import WeatherModel
 ### [engine:senicam(siggen)]-----[engine:seni_human  (Human_num(create each) - check, work)]
 
 ####  model create
-'''
-def num_to_Human(pair):
 
-    print("Dddddd")
-    num, _ = pair
-    hm = HumanModel(0, Infinite, f"HumanModel[{num}]","seni",pair)
-
-    se.insert_input_port("info")
-    se.register_entity(hm)
-    se.coupling_relation(gen,"info", hm, "info")
-'''
 ###
 
 ss = SystemSimulator()

@@ -6,34 +6,47 @@ from pyevsim.definition import *
 import datetime
 from health_object import HealthObject
 
+from pyevsim.system_simulator import SystemSimulator
+
+
 class HumanCheck(BehaviorModelExecutor):
-    def __init__(self, instance_time, destruct_time, name, engine_name, _id, _hu):
-        BehaviorModelExecutor.__init__(self, instance_time, destruct_time, name, engine_name)
+
+    def __init__(self, instance_time, destruct_time, name, engine_name, _id,
+                 _hu):
+        BehaviorModelExecutor.__init__(self, instance_time, destruct_time,
+                                       name, engine_name)
 
         self.init_state("HUMAN_CHECK")
         #self.insert_state("IDLE", Infinite)
         self.insert_state("HUMAN_CHECK", 1)
-        
+
         #self.insert_input_port("info")
         #self.insert_output_port("check")
         self.health_obj = _hu
         self.hid = _id
 
+        self.se = SystemSimulator().get_engine(engine_name)
 
-    def ext_trans(self,port, msg):
+    def ext_trans(self, port, msg):
         pass
 
     def output(self):
 
-        print(f"!check health: {datetime.datetime.now()}")
-        if self.health_obj.human.health_score <30:
-            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health Danger: {datetime.datetime.now()}")
+        #print(f"!check health: {datetime.datetime.now()}")
+        if self.health_obj.human.health_score < 30:
+            print(
+                f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Danger"
+            )
             return None
-        elif self.health_obj.human.health_score <50:
-            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health Attention: {datetime.datetime.now()}")  
-            return None          
+        elif self.health_obj.human.health_score < 50:
+            print(
+                f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Attention "
+            )
+            return None
         else:
-            print(f"Humnan[{self.hid}][Health Score : {self.health_obj.human.health_score}] Health is Okay: {datetime.datetime.now()}")
+            print(
+                f"{self.get_engine_name()},{self.se.get_global_time()}, {self.hid},{self.health_obj.human.health_score}, Health Okay"
+            )
             return None
 
     def int_trans(self):
