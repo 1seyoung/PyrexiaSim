@@ -25,8 +25,54 @@ class SignalGenModel(BehaviorModelExecutor):
         self.insert_input_port("event")
         self.insert_output_port("info")
 
-        self.color_ = ["red","blue"]
-        self.num_ = ["one", "two", "three"]
+        #self.color_ = ["red", "blue"]
+        #self.num_ = ["one", "two", "three"]
+
+        self.goup = google_log.Google_update()
+        
+        self.event_list = [
+            ('two', ' red'),
+            ('two', 'blue'),
+            ('two', 'red'),
+            ('three', 'blue'),
+            ('two', 'blue'),
+            ('three', 'blue'),
+            ('two', 'red'),
+            ('three', 'blue'),
+            ('three', 'blue'),
+            ('two', 'blue'),
+            ('three', 'red'),
+            ('three', 'red'),
+            ('two', 'red'),
+            ('three', 'red'),
+            ('two', 'blue'),
+            ('two', 'blue'),
+            ('three', 'red'),
+            ('one', 'red'),
+            ('two', 'blue'),
+            ('three', 'blue'),
+            ('three', 'blue'),
+            ('one', 'red'),
+            ('two', 'red'),
+            ('three', 'red'),
+        ]
+        '''
+        self.event_list = [
+            ('two', ' red'),
+            ('two', 'blue'),
+            ('two', 'red'),
+            ('two', 'blue'),
+            ('two', 'red'),
+            ('two', 'blue'),
+            ('two', 'red'),
+            ('two', 'blue'),
+            ('two', 'blue'),
+            ('two', 'blue'),
+            ('two', 'red'),
+
+        ]
+        '''
+        self.order = 0
 
         self.sys_engine = _sysengine
 
@@ -67,12 +113,12 @@ class SignalGenModel(BehaviorModelExecutor):
                 hm = HumanModel(0, Infinite, f"HumanModel[{num}]","seni_human", num, _ho)
                 hc = HumanCheck(0, Infinite, f"HumanCheck[{num}]","seni_human", num, _ho)
                 hw = HumanWeather(0, Infinite, f"HumanWeather[{num}]","seni_human", num, _ho)
-                
+
                 self.sys_engine.get_engine("seni_human").insert_input_port(f"info[{num}]")
 
                 self.sys_engine.get_engine("seni_human").register_entity(hm)
-                self.sys_engine.get_engine("seni_human").coupling_relation(None,f"info[{num}]", hm, "info")
-                self.sys_engine.get_engine("seni_human").coupling_relation(None,f"winfo", hw, "winfo")
+                self.sys_engine.get_engine("seni_human").coupling_relation(None, f"info[{num}]", hm, "info")
+                self.sys_engine.get_engine("seni_human").coupling_relation(None, f"winfo", hw, "winfo")
 
                 self.sys_engine.get_engine("seni_human").register_entity(hc)
 

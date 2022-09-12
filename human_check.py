@@ -6,19 +6,26 @@ from pyevsim.definition import *
 import datetime
 from health_object import HealthObject
 
+from pyevsim.system_simulator import SystemSimulator
+
+import google_log
+
 class HumanCheck(BehaviorModelExecutor):
     def __init__(self, instance_time, destruct_time, name, engine_name, _id, _hu):
         BehaviorModelExecutor.__init__(self, instance_time, destruct_time, name, engine_name)
 
         self.init_state("HUMAN_CHECK")
         #self.insert_state("IDLE", Infinite)
-        self.insert_state("HUMAN_CHECK", 1)
-        
-        #self.insert_input_port("info")
-        #self.insert_output_port("check")
+        self.insert_state("HUMAN_CHECK", 0.3)
+
+        self.insert_input_port("info")
+        self.insert_output_port("check")
         self.health_obj = _hu
         self.hid = _id
 
+        self.goup = google_log.Google_update()
+
+        self.se = SystemSimulator().get_engine(engine_name)
 
     def ext_trans(self,port, msg):
         pass
